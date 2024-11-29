@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">TrainingApp</string>
+    <string name="app_name">PhotoEditor</string>
+    <string name="button_load">LOAD</string>
+    <string name="button_crop">CROP</string>
+    <string name="button_light">LIGHT</string>
+    <string name="button_color">COLOR</string>
+    <string name="button_filters">FILTERS</string>
+    <string name="feature_activity_title">Feature: %1$s</string>
+    <string name="feature_text">Feature</string>
 </resources>
