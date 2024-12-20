@@ -8,8 +8,17 @@ import androidx.fragment.app.Fragment
 import com.walkersilva.trainingapp.databinding.FragmentFeatureBinding
 
 class FeatureFragment : Fragment() {
+
     private var _binding: FragmentFeatureBinding? = null
     private val binding get() = _binding!!
+    private var featureName: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            featureName = it.getString("feature")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,12 +30,7 @@ class FeatureFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val buttonName = arguments?.getString("button_name")
-        buttonName?.let {
-            activity?.title = getString(R.string.feature_activity_title, it)
-            binding.textView.text = it
-        }
+        binding.textView.text = featureName
     }
 
     override fun onDestroyView() {

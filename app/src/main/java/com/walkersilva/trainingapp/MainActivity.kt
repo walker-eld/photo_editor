@@ -1,45 +1,41 @@
 package com.walkersilva.trainingapp
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.walkersilva.trainingapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
-    private val getImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            binding.imageView.setImageURI(it)
-        }
-    }
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.buttonLoad.text = getString(R.string.button_load)
-        binding.buttonLoad.setOnClickListener {
-            getImage.launch("image/*")
-        }
-
-        val buttons = listOf(
-            binding.buttonCrop to getString(R.string.button_crop),
-            binding.buttonLight to getString(R.string.button_light),
-            binding.buttonColor to getString(R.string.button_color),
-            binding.buttonFilters to getString(R.string.button_filters)
-        )
-
-        buttons.forEach { (button, label) ->
-            button.text = label
-            button.setOnClickListener {
-                val intent = Intent(this, FeatureFragment::class.java).apply {
-                    putExtra("button_name", label)
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.fragment_container) as NavHostFragment
+        val navController = navHostFragment.navController
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (navController.currentDestination?.id == R.id.mainFragment) {
+                    finish()
+                } else {
+                    navController.navigateUp()
                 }
-                startActivity(intent)
             }
-        }
+        })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
