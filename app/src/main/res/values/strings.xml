@@ -7,4 +7,6 @@
     <string name="button_filters">FILTERS</string>
     <string name="feature_activity_title">Feature: %1$s</string>
     <string name="feature_text">Feature</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
